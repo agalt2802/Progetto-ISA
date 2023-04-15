@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,19 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+body{
+  background-color: #282c34;
 }
+
+h1{
+  text-align: center;
+  color: rgb(196, 144, 80)
+}
+
+a.nav-link{
+  color: rgb(196, 144, 80);
+  border: 1px solid rgb(196, 144, 80) !important;
+}
+
