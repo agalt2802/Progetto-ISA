@@ -4,7 +4,7 @@ document.getElementById("myButton").addEventListener("click", function () {
     console.log("button clicked");
     var parameterValue = "camera";
     // Make the request
-    fetch("https://192.168.0.92:443/picture")
+    fetch("https://192.168.1.153:5443/picture")
       .then((response) => response.json())
       .then((data) => {
         if (data.fileExists) {
@@ -16,7 +16,7 @@ document.getElementById("myButton").addEventListener("click", function () {
   });
   
   document.getElementById("resetCamera").addEventListener("click", function () {
-    fetch("https://192.168.0.92:443/reset?param=camera")
+    fetch("https://192.168.1.153:5443/reset?param=camera")
       .then((response) => {
         if (
           response.ok &&
@@ -62,7 +62,7 @@ document.getElementById("myButton").addEventListener("click", function () {
   
     saveFile()
     
-    fetch("https://192.168.0.92:443/save?param=camera")
+    fetch("https://192.168.1.153:5443/save?param=camera")
       .then((response) => {
         if (
           response.ok &&
@@ -85,7 +85,7 @@ document.getElementById("myButton").addEventListener("click", function () {
     document.getElementById("confirm").addEventListener("click", function () {
       let input = document.getElementById("inputBox")
       let fileName = input.value
-      let url = "https://192.168.0.92:443/createFile?fileName=" + encodeURIComponent(fileName)
+      let url = "https://192.168.1.153:5443/createFile?fileName=" + encodeURIComponent(fileName)
       fetch(url)
         .then((response) => {
           if (

@@ -1,7 +1,7 @@
 document.getElementById("sendMessage").addEventListener("click", function () {
     let message = document.getElementById("messageToSend").value
     console.log(message)
-    fetch(`https://192.168.0.92:443/sendMessage?param=${message}`)
+    fetch(`https://192.168.1.153:5443/sendMessage?param=${message}`)
       .then((response) => {
         if (
           response.ok &&

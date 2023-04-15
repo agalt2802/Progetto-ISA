@@ -21,22 +21,21 @@
     
   
     </script>
-    <a href="https://192.168.0.92:443/camera"><button class="button" id="camera" onclick="" >Take a photo</button></a>
-    <a href="https://192.168.0.92:443/recAudio"><button class="button" id="recAudio">Record Audio</button></a>
+    <a href="https://192.168.1.153:5443/camera"><button class="button" id="camera" onclick="" >Take a photo</button></a>
+    <a href="https://192.168.1.153:5443/recAudio"><button class="button" id="recAudio">Record Audio</button></a>
     <button class="button">Record Video</button>
     <button class="button">Send a message</button>
     <button class="button">Network Information</button>
     <button class="button">Find phone</button>
-    <a href="https://192.168.1.153:443/batteryStatus"><button class="button" id="battery">Battery Status</button></a>
+    <a href="https://192.168.1.153:5443/batteryStatus"><button class="button" id="battery">Battery Status</button></a>
     <button class="button">Device Information</button>
   </div>
   <div id="results">
     <h1>Results</h1>
-    <%=batteryStatus%>
     <img id="pictureTaken" src="imgs/logo1.png" alt="">
     <div>
     <button id="myButton" class="button">See Picture</button>
-    <a href="https://192.168.0.92:443/reset"><button id="resetCamera" class="button">Reset</button></a>
+    <a href="https://192.168.1.153:5443/reset"><button id="resetCamera" class="button">Reset</button></a>
     <button id="savePhoto" class="button">Save Picture</button>
   </div>
   </div>
