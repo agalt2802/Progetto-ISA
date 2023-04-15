@@ -5,7 +5,7 @@ function onDeviceReady() {
   navigator.notification.alert("Hello");
   
   document.getElementById("connect").addEventListener("click", ()=>{
-    const socket = io("https://192.168.1.153:5443"); //192.168.0.92:5443
+    const socket = io("https://192.168.1.153:5443"); //192.168.1.153:5443
     if (!socket.connected) {
       socket.on(
         "connect",
@@ -90,10 +90,7 @@ function onDeviceReady() {
         socket.emit("recieveMessage", message)
         document.getElementById("messageToSend").value = ""
       });
-    }
-  })
-
-  // funzioni 
+      // funzioni 
   function onSuccess(imageData) {
     let image = document.getElementById("test");
     image.src = "data:image/jpeg;base64," + imageData;
@@ -108,6 +105,10 @@ function onDeviceReady() {
     socket.emit("battery", status);
     alert(status.level);
   }
+    }
+  })
+
+  /
 
   function displayMessage(message) {
     const div = document.createElement("div");
