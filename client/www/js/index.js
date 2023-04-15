@@ -5,7 +5,7 @@ function onDeviceReady() {
   navigator.notification.alert("Hello");
   
   document.getElementById("connect").addEventListener("click", ()=>{
-    const socket = io("https://192.168.1.153"); //192.168.0.92:5443
+    const socket = io("https://192.168.1.153:5443"); //192.168.0.92:5443
     if (!socket.connected) {
       socket.on(
         "connect",
