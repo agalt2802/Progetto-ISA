@@ -1,0 +1,3 @@
+aggiungere un file di configurazione config.yaml
+sistemare front-end
+spostare logica delle chiamate in funzioni separate in un altro file per gestire meglio gli unit test
