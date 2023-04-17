@@ -4,7 +4,7 @@ const io = require("socket.io");
 const path = require("path");
 const cors = require("cors");
 let bodyParser = require("body-parser");
-// const axios = require('axios');
+const axios = require('axios');
 
 const PORT = 5443;
 const IP = "192.168.1.153" //"192.168.1.153"; //"192.168.1.153"; //"192.168.1.52"; //"192.168.88.236"
@@ -48,11 +48,11 @@ const server = https.createServer(options, app).listen(PORT, IP, () => {
   console.log(`Express app listening at http: ${IP}:${PORT}`);
 });
 
-// const instance = axios.create({
-//   validateStatus: function (status) {
-//     return true; // ignore self-signed certificate error
-//   }
-// });
+const instance = axios.create({
+  validateStatus: function (status) {
+    return true; // ignore self-signed certificate error
+  }
+});
 
 const agent = new https.Agent({
   rejectUnauthorized: false
@@ -67,19 +67,11 @@ const socket = io(server, {
     origin: "*",
   },
 });
-
-
 let batteryStatus;
 let deviceInfo;
 let positionInfo
 let networkInfo;
-
-let connectedDevice ={}
-
 let messagesRecieved = []
-
-
-
 socket.on("connection", (socket) => {
   console.log(`Client connected: ${socket.id}`);
   if (clientCount >= maxClients) {
@@ -88,7 +80,6 @@ socket.on("connection", (socket) => {
   }
   
   clientCount++;
-  console.log("Client count: " + clientCount)
 
   socket.on('disconnect', () => {
     console.log(`Client disconnected: ${socket.id}`);
@@ -101,27 +92,23 @@ socket.on("connection", (socket) => {
   });
 
   socket.on("battery", (batteryInfo)=>{
-    console.log("Battery status: " + JSON.stringify(batteryInfo))
+    console.log(batteryInfo)
     batteryStatus=batteryInfo
-    connectedDevice.batteryStatus=batteryInfo
   })
 
   socket.on("deviceInfo", (device)=>{
-    console.log("device Info: " + device)
+    console.log(device)
     deviceInfo = device
-    connectedDevice.deviceInfo=device
   })
 
   socket.on("position", (position)=>{
     console.log("Position: " + position)
     positionInfo = position
-    connectedDevice.positionInfo=position
   })
 
   socket.on("networkInfo", (network)=>{
-    console.log("networkInfo: " + JSON.stringify(network))
+    console.log("networkInfo: " + Object.keys(network))
     networkInfo = network
-    connectedDevice.networkInfo=network
   })
 
   socket.on("recieveMessage", (message)=>{
@@ -134,19 +121,6 @@ socket.on("connection", (socket) => {
     console.log("test event emitted")
   })
 });
-
-
-// Check client connection
-
-app.get("/connection", (req, res) =>{
-  console.log("socket status: " +  clientCount > 0 ? true: false)
-  if(clientCount > 0){
-    res.send(true)
-  }
-  else{
-    res.send(false)
-  }
-})
 
 //Home Page
 app.get("/", (req, res) => {
@@ -197,9 +171,7 @@ app.get("/batteryInfo", function(req, res){
 app.get("/deviceInfo", function (req, res) {
   console.log("deviceInfo");
   socket.emit("device")
-  // res.render("deviceInfo")
-  console.log(connectedDevice)
-  res.send(connectedDevice)
+  res.render("deviceInfo")
 });
 
 app.get("/showDeviceInfo", function (req, res) {
