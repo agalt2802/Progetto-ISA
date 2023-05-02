@@ -43,6 +43,11 @@ body {
   
 }
 
+#mainContainer{
+  width: 60%;
+  height: 60%;
+}
+
 h1 {
   text-align: center;
   color: rgb(196, 144, 80);
@@ -66,6 +71,106 @@ a.nav-link:hover {
 
 #connected{
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.card, .list-group-item{
+  background-color: #282c34 !important;
+  color: rgb(196, 144, 80);
+  border-color: rgb(196, 144, 80);
+  margin-right: 25px;
+  /* margin-left: 500px; */
+}
+
+/* .card, .list-group-item{
+  background-color: rgb(196, 144, 80) !important;
+  color: #282c34
+} */
+
+.card-header{
+  font-weight: 900;
+  text-align: center;
+}
+
+.card-body{
+  text-align: center;
+}
+
+#pageTitle{
+  padding: 20px;
+}
+
+#pageTitle > div > h1 {
+  font-size: 70px;
+}
+
+#notConnected, #waitingForPhoto, #waitingForPosition{
+  text-align: center;
+  padding: 100px;
+  /* font-family: sans-serif; */
+  font-size: 50px;
+  animation: blink 5s linear infinite;
+}
+
+@keyframes blink {
+  50%{
+    opacity: .2;
+  }
+  80% {
+    opacity: .5;
+  }  
+}
+
+.HpButtons{
+  background-color: rgb(196, 144, 80);
+  border: 2px solid #282c34;
+  color: #282c34;
+  margin-bottom: 10px;
+}
+
+.HpButtons:hover{
+  background-color: #282c34 !important;
+  color: rgb(196, 144, 80) !important;
+  border-color: rgb(196, 144, 80) !important;
+  font-weight: 900;
+}
+
+#photoTaken{
+  display: flex;
+  justify-content: center;
+}
+
+#photo{
+  border: 2px solid rgb(196, 144, 80);
+  border-radius: 10%;
+  height: 250px;
+  width: 250px;
+}
+
+#buttons{
+  display: flex;
+  justify-content: center;
+}
+
+button.btn.btn-secondary{
+  background-color: rgb(196, 144, 80);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#map {
+  position: absolute;
+  left: calc();
+}
+
+.positionHP{
+position: absolute;
+top: 300px;
+left: 390px;
+}
+
+#messages{
+  background-color: aliceblue;
 }
 
