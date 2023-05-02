@@ -1,63 +1,140 @@
-import {useState, useEffect} from 'react';
-import { Container, Row} from "reactstrap";
+import { useState, useEffect } from "react";
+import { Container, Row, Col } from "reactstrap";
 import Nav from "react-bootstrap/Nav";
-import'./App.css'
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import { takePhoto, getPosition, getBatteryInfo } from "./functions";
+import ListGroup from "react-bootstrap/ListGroup";
+import { checkConnectionToClient } from "./functions";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-// import "./styles.css";
+import TakePhoto from "./components/TakePhoto";
+import Chat from "./components/Chat";
+import GetPosition from "./components/GetPosition";
+import BatteryStatus from "./components/BatteryStatus";
+
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const [connected, setConnected] = useState(true);
-  const [device, setDevice] = useState("")
+  const [device, setDevice] = useState(false);
+  const [connected, setConnetcted] = useState(false);
+  const [show, setShow] = useState(true);
+  const [sentTakePhoto, setSentTakePhoto] = useState(false);
+  const [showPosition, setShowPosition] = useState(false);
+  const [showBattery, setShowBattery] = useState(false);
+  const [showMessages, setShowMessages] = useState(false);
 
-  useEffect(() => {
-    async function checkConnectionToClient() {
-      const response = await fetch("https://192.168.1.153:5443/connection").catch(
-        (error) => console.log(error)
-      );
-      const json = await response.json();
-      console.log(json)
-      setConnected(json)
+  const isConnected = async () => {
+    let response = await fetch("https://192.168.1.153:5443/isConnected").catch(
+      (error) => console.log(error)
+    );
+    response = await response.json();
+    if (response) {
+      setConnetcted(true);
+      setDevice(response);
+    } else {
+      setConnetcted(false);
     }
-    checkConnectionToClient();
-  }, [connected]);
+  };
+  useEffect(() => {
+    setInterval(isConnected, 10000);
+  }, []);
 
-  const handleSelectComponent = (key) => {
-    console.log(key)
-  }
+  const handleTakePhoto = () => {
+    takePhoto();
+    setShow(false);
+    setSentTakePhoto(true);
+  };
+
+  const handleGetPosition = () => {
+    getPosition();
+    setShow(false);
+    setShowPosition(true);
+  };
+
+  const handleGetBatteryInfo = () => {
+    getBatteryInfo();
+    setShow(false);
+    setShowBattery(true);
+  };
+
+  const handleStartChat = () => {
+    setShow(false);
+    setShowMessages(true);
+  };
 
   return (
-    <Container>
-      <Row>
+    <Container id="mainContainer">
+      <Row id="pageTitle">
         <div>
           <h1>SERVER</h1>
         </div>
       </Row>
-      {
-        connected &&
-        <div id="connected">
-          <p>Connected: {JSON.stringify(connected)}</p> 
-        </div>
-      }
-      {/* <Row>
-        <Nav justify variant="tabs" onSelect={(selectedKey) => handleSelectComponent(selectedKey)}>
-          <Nav.Item>
-            <Nav.Link eventKey={"TakePhoto"} >TAKE A PHOTO</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey={"SendMessage"} >START A CHAT</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey={"CreateCron"}  >CREATE CRON</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey={"EditCron"}  >EDIT CRON</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey={"ViewLogs"}  >VIEW LOGS</Nav.Link>
-          </Nav.Item>
-        </Nav>
-      </Row> */}
+      {!connected && (
+        <Row>
+          <h1 id="notConnected">Waiting for client to connect...</h1>
+        </Row>
+      )}
+      {connected && (
+        <Container>
+          <Row>
+            {/* <Col> */}
+            <div id="connected">
+              <Card>
+                <Card.Header>Connected Device</Card.Header>
+                <Card.Body>
+                  <Row>
+                    <Card.Text>Device model: {device.deviceInfo[0]}</Card.Text>
+                    <Card.Text>
+                      Device platform: {device.deviceInfo[1]}
+                    </Card.Text>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </div>
+            {/* </Col> */}
+            {/* <Col> */}
+            {show && (
+              <div>
+                <Row>
+                  <Button className="HpButtons" onClick={handleTakePhoto}>
+                    TAKE PHOTO
+                  </Button>
+                </Row>
+                <Row>
+                  <Button className="HpButtons" onClick={handleStartChat}>
+                    START CHAT
+                  </Button>
+                </Row>
+                <Row>
+                  <Button className="HpButtons" onClick={handleGetPosition}>
+                    GET POSITION
+                  </Button>
+                </Row>
+                <Row>
+                  <Button className="HpButtons" onClick={handleGetBatteryInfo}>
+                    BATTERY INFO
+                  </Button>
+                </Row>
+              </div>
+            )}
+          </Row>
+
+          {sentTakePhoto && (
+            <TakePhoto setShow={setShow} setSentTakePhoto={setSentTakePhoto} />
+          )}
+
+          {showPosition && (
+            <GetPosition setShow={setShow} setShowPosition={setShowPosition} />
+          )}
+          {showBattery && (
+            <BatteryStatus setShow={setShow} setShowBattery={setShowBattery} />
+          )}
+          {showMessages && (
+            <Chat setShow={setShow} setShowMessages={setShowMessages} />
+          )}
+        </Container>
+      )}
     </Container>
   );
 }
