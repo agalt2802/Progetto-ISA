@@ -7,7 +7,7 @@ let bodyParser = require("body-parser");
 const axios = require('axios');
 
 const PORT = 5443;
-const IP = "192.168.1.153" //"192.168.1.153"; //"192.168.1.153"; //"192.168.1.52"; //"192.168.88.236"
+const IP = "192.168.0.92" //"192.168.0.92"; //"192.168.0.92"; //"192.168.1.52"; //"192.168.88.236"
 // const html = fs.readFileSync("index.html");
 const express = require("express");
 

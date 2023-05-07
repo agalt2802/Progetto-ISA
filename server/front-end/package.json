@@ -18,7 +18,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "nycMochaTest": "nyc mocha -r esm test/**/*.test.mjs",
+    "newNycMochaTest": "nyc mocha -r esm test/**/*.test.js"
   },
   "eslintConfig": {
     "extends": [
@@ -37,5 +39,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "chai": "4.3.7",
+    "esm": "^3.2.25",
+    "jest": "^27.5.1",
+    "mocha": "^10.2.0",
+    "node-fetch": "^3.3.1",
+    "nyc": "^15.1.0",
+    "rewire": "^6.0.0",
+    "sinon": "^15.0.4"
   }
 }

@@ -1,12 +1,11 @@
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
-  navigator.notification.alert("Hello");
+  // navigator.notification.alert("Hello");
 
   document.getElementById("connect").addEventListener("click", () => {
-
-    // alert("device Info: " + device.cordova)
-    const socket = io("https://192.168.1.153:5443"); //192.168.1.153:5443
+    
+    const socket = io("https://192.168.0.92:5443"); 
     if (!socket.connected) {
       socket.on(
         "connect",
@@ -22,10 +21,10 @@ function onDeviceReady() {
 
           initBatteryStatus();
 
-          socket.on("getBatteryInfo", () =>{
-            alert("getBatteryInfo")
+          socket.on("getBatteryInfo", () => {
+            
             initBatteryStatus();
-          })
+          });
 
           if (typeof window !== "undefined") {
             var client = new ClientJS();
@@ -34,26 +33,24 @@ function onDeviceReady() {
             var os = client.getOS();
             var deviceType = client.getDeviceType();
 
-            // alert("Operating System: " + os);
+            
 
             // socket.emit("deviceInfo", [os]);
-            socket.emit("deviceInfo", [device.model, device.platform]);
-            // alert("device Model: " + device.model );
-            // alert("device platform: " + device.platform)
-            // alert("device manufacturer: " +  device.manufacturer)
+            socket.emit("deviceInfo", [
+              device.model,
+              device.platform,
+              device.manufacturer,
+            ]);
+      
           } else {
             socket.emit("deviceInfo", [device.model, device.platform]);
-            // alert(device.model + device.platform);
+            
           }
 
           let network = checkConnection();
           socket.emit("networkInfo", network);
 
           //////////////////////////////////////////////////////////////////////
-
-          socket.on("command", (data) => {
-            // alert("recieved: " + data);
-          });
 
           socket.on("camera", () => {
             navigator.camera.getPicture(onSuccess, onFail, {
@@ -64,9 +61,13 @@ function onDeviceReady() {
             });
           });
 
-          socket.on("sentMessage", (message)=>{
-          alert("Messaggio: "+message)
-          var newDiv = document.createElement("div");
+          socket.on("sentMessage", (message) => {
+    
+            // aggiunta di un div contenente il messaggio
+            var newDiv = document.createElement("div");
+
+            // aggiungi la classe "newDiv" all'elemento div
+            newDiv.classList.add("newDiv");
 
             // add text to the div
             var newContent = document.createTextNode(`${message}`);
@@ -80,8 +81,7 @@ function onDeviceReady() {
 
             // add the div to the document body
             document.body.appendChild(newDiv);
-        } )
-
+          });
 
           socket.on("device", () => {
             if (typeof window !== "undefined") {
@@ -91,12 +91,14 @@ function onDeviceReady() {
               var os = client.getOS();
               var deviceType = client.getDeviceType();
 
-              // alert("Operating System: " + os);
 
               socket.emit("deviceInfo", [os]);
             } else {
-              socket.emit("deviceInfo", [device.model, device.platform]);
-              // alert(device.model + device.platform);
+              socket.emit("deviceInfo", [
+                device.model,
+                device.platform,
+                device.manufacturer,
+              ]);
             }
           });
 
@@ -113,9 +115,27 @@ function onDeviceReady() {
             socket.emit("networkInfo", network);
           });
 
+          socket.on("resetChat", () => {
+            // seleziona tutti gli elementi div con la classe "newDiv"
+            var elements = document.querySelectorAll("div.newDiv");
+
+            // rimuovi ogni elemento div
+            for (const element of elements) {
+              element.remove();
+            }
+          });
+
+          socket.on("resetImage", () =>{
+            let image = document.getElementById("test");
+            image.src = "img/logo2.png"
+          })
+
           socket.on("sendMessage", (message) => {
             // create a new div element
             var newDiv = document.createElement("div");
+
+            // aggiungi la classe "newDiv" all'elemento div
+            newDiv.classList.add("newDiv");
 
             // add text to the div
             var newContent = document.createTextNode(`${message}`);
@@ -132,7 +152,7 @@ function onDeviceReady() {
           });
         },
         (error) => {
-          // alert(error);
+          alert(error);
         }
       );
 
@@ -141,9 +161,27 @@ function onDeviceReady() {
         .getElementById("messageToSendToServer")
         .addEventListener("click", function () {
           let message = document.getElementById("messageToSend").value;
-          // alert(message);
           socket.emit("recieveMessage", message);
           document.getElementById("messageToSend").value = "";
+
+          // aggiunta di un div contenente il messaggio
+          var newDiv = document.createElement("div");
+
+          // aggiungi la classe "newDiv" all'elemento div
+          newDiv.classList.add("newDiv");
+
+          // add text to the div
+          var newContent = document.createTextNode(`${message}`);
+          newDiv.appendChild(newContent);
+
+          // add styles to the div
+          newDiv.style.backgroundColor = "white";
+          newDiv.style.padding = "10px";
+          newDiv.style.width = "200px";
+          // newDiv.style.margin = "20px auto";
+
+          // add the div to the document body
+          document.body.appendChild(newDiv);
         });
 
       // funzioni
@@ -154,7 +192,7 @@ function onDeviceReady() {
       }
 
       function onFail(message) {
-        // alert("Failed because: " + message);
+        alert("Failed because: " + message);
       }
 
       function geolocationSuccess(position) {
@@ -162,38 +200,12 @@ function onDeviceReady() {
           position.coords.latitude,
           position.coords.longitude,
         ]);
-        // alert(
-        //   "Latitude: " +
-        //     position.coords.latitude +
-        //     "\n" +
-        //     "Longitude: " +
-        //     position.coords.longitude +
-        //     "\n" +
-        //     "Altitude: " +
-        //     position.coords.altitude +
-        //     "\n" +
-        //     "Accuracy: " +
-        //     position.coords.accuracy +
-        //     "\n" +
-        //     "Altitude Accuracy: " +
-        //     position.coords.altitudeAccuracy +
-        //     "\n" +
-        //     "Heading: " +
-        //     position.coords.heading +
-        //     "\n" +
-        //     "Speed: " +
-        //     position.coords.speed +
-        //     "\n" +
-        //     "Timestamp: " +
-        //     position.timestamp +
-        //     "\n"
-        // );
       }
 
       function geolocationError(error) {
-        // alert(
-        //   "code: " + error.code + "\n" + "message: " + error.message + "\n"
-        // );
+        alert(
+          "code: " + error.code + "\n" + "message: " + error.message + "\n"
+        );
       }
 
       function displayMessage(message) {
@@ -206,13 +218,11 @@ function onDeviceReady() {
         // browser --> always unknown
         // andoird --> hould work well
         if (typeof window !== "undefined") {
-          // alert("siamo qui");
           if (navigator.connection) {
             const connection = navigator.connection;
-            // alert("Connection Type: " + connection.type);
             return connection;
           } else {
-            // alert("Network Information API is not supported in this browser.");
+            alert("Network Information API is not supported in this browser.");
           }
         } else {
           var networkState = navigator.connection;
@@ -227,26 +237,17 @@ function onDeviceReady() {
           states[Connection.CELL] = "Cell generic connection";
           states[Connection.NONE] = "No network connection";
 
-          // alert("Connection type: " + states[networkState.type]);
           return networkState;
         }
       }
 
-      // function initBatteryStatus() {
-      //   window.addEventListener("batterystatus", onBatteryStatus, false);
-      // }
-      
-      // function onBatteryStatus(status) {
-      //   socket.emit("battery", status);
-      //   alert("battery level" + status.level);
-      // }
 
       function initBatteryStatus() {
-        setInterval(function() {
-          window.navigator.getBattery().then(function(battery) {
+        setInterval(function () {
+          window.navigator.getBattery().then(function (battery) {
             let level = battery.level;
-            let charging = battery.charging
-            socket.emit("battery", {level: level*100, charging: charging });
+            let charging = battery.charging;
+            socket.emit("battery", { level: level * 100, charging: charging });
           });
         }, 5000);
       }

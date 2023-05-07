@@ -7,7 +7,7 @@ function GetPosition({setShow, setShowPosition}) {
   const [position, setPosition] = useState(false);
 
   const getPosition = async () => {
-    let response = await fetch("https://192.168.1.153:5443/position").catch(
+    let response = await fetch("https://192.168.0.92:5443/position").catch(
       (error) => console.log(error)
     );
     response = await response.json();

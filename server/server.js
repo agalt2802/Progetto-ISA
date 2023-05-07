@@ -12,7 +12,7 @@ const express = require("express");
 // import App from '../server/front-end/src/App';
 
 const PORT = 5443;
-const IP = "192.168.1.153"; //"192.168.1.153"; //"192.168.1.153"; //"192.168.1.52"; //"192.168.88.236"
+const IP = "192.168.0.92"; //"192.168.0.92"; //"192.168.0.92"; //"192.168.1.52"; //"192.168.88.236"
 
 let app = new express();
 const corsOptions = {
@@ -156,6 +156,7 @@ app.get("/pictureTaken", (req, res) => {
 
 app.get("/resetImage", (req, res) => {
   img = false;
+  socket.emit("resetImage")
 });
 
 app.post("/savePhoto", (req, res) => {
@@ -224,4 +225,10 @@ app.post("/sendMessage", (req, res) => {
   console.log("Send Message: "+  req.body.message)
   messages.push({from: "server", message: req.body.message})
   socket.emit("sentMessage", req.body.message)
+});
+
+app.get("/resetMessages", (req, res) => {
+  console.log("reset Messages")
+  messages = [];
+  socket.emit("resetChat")
 });

@@ -13,14 +13,14 @@ function HomePage() {
 
   useEffect(() => {
     async function checkConnectionToClient() {
-      let response = await fetch("https://192.168.1.153:5443/checkConnection").catch(
+      let response = await fetch("https://192.168.0.92:5443/checkConnection").catch(
         (error) => console.log(error)
       );
       const json = await response.json();
       console.log("JSON: " + json)
       setConnected(json);
       // if (json) {
-      //   response = await fetch("https://192.168.1.153:5443/device").catch(
+      //   response = await fetch("https://192.168.0.92:5443/device").catch(
       //     (error) => console.log(error)
       //   );
       //   let deviceInfo = await response.json();

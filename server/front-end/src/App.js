@@ -25,9 +25,8 @@ function App() {
   const [showMessages, setShowMessages] = useState(false);
 
   const isConnected = async () => {
-    let response = await fetch("https://192.168.1.153:5443/isConnected").catch(
-      (error) => console.log(error)
-    );
+    try{
+    let response = await fetch("https://192.168.0.92:5443/isConnected")
     response = await response.json();
     if (response) {
       setConnetcted(true);
@@ -35,6 +34,10 @@ function App() {
     } else {
       setConnetcted(false);
     }
+    }catch(error){
+      console.log(error)
+    }
+    
   };
   useEffect(() => {
     setInterval(isConnected, 10000);
@@ -88,6 +91,11 @@ function App() {
                     <Card.Text>
                       Device platform: {device.deviceInfo[1]}
                     </Card.Text>
+                    {device.deviceInfo[1]==="Android" ? 
+                    <Card.Text>
+                    Device Manufacturer: {device.deviceInfo[2]}
+                  </Card.Text>
+                    :null }
                   </Row>
                 </Card.Body>
               </Card>

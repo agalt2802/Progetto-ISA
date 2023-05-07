@@ -10,13 +10,13 @@ function TakePhoto({setShow, setSentTakePhoto}) {
   const [fileName, setFileName] = useState("");
   const [showFileExistsModal, setShowFileExistsModal] = useState(false)
   // const takePhoto = async () => {
-  //   await fetch("https://192.168.1.153:5443/takePhoto").catch(
+  //   await fetch("https://192.168.0.92:5443/takePhoto").catch(
   //     (error) => console.log(error)
   //   );
   // };
 
   const getPicture = async () => {
-    let response = await fetch("https://192.168.1.153:5443/pictureTaken").catch(
+    let response = await fetch("https://192.168.0.92:5443/pictureTaken").catch(
       (error) => console.log(error)
     );
     response = await response.text();

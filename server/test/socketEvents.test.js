@@ -7,7 +7,7 @@ const https = require("https");
 
 const agent = new https.Agent({ rejectUnauthorized: false });
 
-const serverUrl = "https://192.168.1.153:5443";
+const serverUrl = "https://192.168.0.92:5443";
 console.log("sto eseguendo il modulo test.js");
 let client;
 const connectToServer = () => {
@@ -43,7 +43,7 @@ describe("Server Tests", function () {
 describe("Test endpoint", () => {
   it("should respond with status code 200 and render index.ejs", async () => {
     try{
-    const response = await fetch("https://192.168.1.153:5443", { rejectUnauthorized: false });
+    const response = await fetch("https://192.168.0.92:5443", { rejectUnauthorized: false });
     expect(response.status).to.equal(200);
   }catch(errore){
     console.log(errore)

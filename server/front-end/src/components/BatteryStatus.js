@@ -7,7 +7,7 @@ function BatteryStatus({ setShow, setShowBattery }) {
   const [battery, setBattery] = useState(false);
 
   const getBattery = async () => {
-    let response = await fetch("https://192.168.1.153:5443/battery").catch(
+    let response = await fetch("https://192.168.0.92:5443/battery").catch(
       (error) => console.log(error)
     );
     response = await response.json();

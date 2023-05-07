@@ -1,5 +1,5 @@
 document.getElementById("batteryInfo").addEventListener("click", function () {
-    fetch("https://192.168.1.153:5443/batteryInfo")
+    fetch("https://192.168.0.92:5443/batteryInfo")
       .then((response) => {
         if (
           response.ok &&
